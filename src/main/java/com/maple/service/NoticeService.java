@@ -71,11 +71,22 @@ public class NoticeService {
 
     private HashMap<String, Object> parseNoticesToJsonString(List<Notice> notices) {
         HashMap<String, Object> jsonString = new HashMap<>();
+        jsonString.put("version", "2.0");
+
         HashMap<String,Object> template = new HashMap<>();
+        jsonString.put("template", template);
+
         List<HashMap<String, Object>> outputs = new ArrayList<>();
+        template.put("outputs", outputs);
+
         HashMap<String, Object> simpleText = new HashMap<>();
+        outputs.add(simpleText);
+
         HashMap<String, Object> text = new HashMap<>();
+        simpleText.put("simpleText", text);
+
         StringBuilder result = new StringBuilder();
+        text.put("text", result);
 
         for (Notice notice : notices) {
             result.append(String.join("\n",
@@ -84,14 +95,6 @@ public class NoticeService {
                     String.valueOf(notice.getDate())))
                     .append("\n\n");
         }
-
-        text.put("text", result);
-        simpleText.put("simpleText", text);
-        outputs.add(simpleText);
-        template.put("outputs", outputs);
-
-        jsonString.put("version", "2.0");
-        jsonString.put("template", template);
 
         return jsonString;
     }
