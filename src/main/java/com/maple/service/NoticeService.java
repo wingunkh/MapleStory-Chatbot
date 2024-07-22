@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +38,7 @@ public class NoticeService {
 
         List<Notice> notices = parseJsonToNotices(response.getBody());
 
-        noticeRepository.saveAll(notices);
+        noticeRepository.saveAll(notices.stream().limit(10).collect(Collectors.toList()));
     }
 
     public HashMap<String, Object> findAllNotice() {
