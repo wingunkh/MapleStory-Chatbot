@@ -20,8 +20,6 @@ public class Notice {
 
     private String url;
 
-    private Integer notice_id;
-
     private LocalDate date;
 
     // OffsetDateTime → LocalDate 변환

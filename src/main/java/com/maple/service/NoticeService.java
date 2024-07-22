@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -39,11 +40,11 @@ public class NoticeService {
         noticeRepository.saveAll(notices);
     }
 
-    public List<Notice> findAllNotice() {
-        return noticeRepository.findAll();
+    public HashMap<String, Object> findAllNotice() {
+        return parseNoticesToJsonString(noticeRepository.findAll());
     }
 
-    public List<Notice> parseJsonToNotices(String jsonData) {
+    private List<Notice> parseJsonToNotices(String jsonData) {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode rootNode;
 
@@ -61,11 +62,37 @@ public class NoticeService {
             Notice notice = new Notice();
             notice.setTitle(noticeNode.get("title").asText());
             notice.setUrl(noticeNode.get("url").asText());
-            notice.setNotice_id(noticeNode.get("notice_id").asInt());
             notice.setDate(Notice.convertTime(String.valueOf(noticeNode.get("date"))));
             notices.add(notice);
         }
 
         return notices;
+    }
+
+    private HashMap<String, Object> parseNoticesToJsonString(List<Notice> notices) {
+        HashMap<String, Object> jsonString = new HashMap<>();
+        HashMap<String,Object> template = new HashMap<>();
+        List<HashMap<String, Object>> outputs = new ArrayList<>();
+        HashMap<String, Object> simpleText = new HashMap<>();
+        HashMap<String, Object> text = new HashMap<>();
+        StringBuilder result = new StringBuilder();
+
+        for (Notice notice : notices) {
+            result.append(String.join("\n",
+                    notice.getTitle(),
+                    notice.getUrl(),
+                    String.valueOf(notice.getDate())))
+                    .append("\n\n");
+        }
+
+        text.put("text", result);
+        simpleText.put("simpleText", text);
+        outputs.add(simpleText);
+        template.put("outputs", outputs);
+
+        jsonString.put("version", "2.0");
+        jsonString.put("template", template);
+
+        return jsonString;
     }
 }

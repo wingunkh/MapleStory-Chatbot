@@ -2,11 +2,10 @@ package com.maple.controller;
 
 import com.maple.service.NoticeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.HashMap;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,16 +14,16 @@ public class NoticeController {
     private final NoticeService noticeService;
 
     // 공지사항 조회
-    @GetMapping
-    public ResponseEntity<Object> findAllNotice() {
-        return ResponseEntity.status(HttpStatus.OK).body(noticeService.findAllNotice());
+    @PostMapping("/get")
+    public HashMap<String, Object> findAllNotice() {
+        return noticeService.findAllNotice();
     }
 
     // 공지사항 패치 (for test)
-    @GetMapping("/fetch")
-    public ResponseEntity<Object> fetchNotices() {
+    @PostMapping("/fetch")
+    public String fetchNotices() {
         noticeService.fetchNotices();
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return "";
     }
 }
