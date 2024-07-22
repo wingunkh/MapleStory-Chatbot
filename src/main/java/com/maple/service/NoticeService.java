@@ -91,9 +91,9 @@ public class NoticeService {
 
         for (Notice notice : notices) {
             result.append(String.join("\n",
-                    notice.getTitle(),
-                    notice.getUrl(),
-                    String.valueOf(notice.getDate())))
+                    "▶ " + notice.getTitle(),
+                    "☞ 공지 링크 : " + notice.getUrl(),
+                    "☞ 공지 날짜 : " + notice.getDate()))
                     .append("\n\n");
         }
 
