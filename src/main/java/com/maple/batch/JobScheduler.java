@@ -16,7 +16,7 @@ public class JobScheduler {
     private final JobLauncher jobLauncher;
     private final Job job;
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(cron = "0 0 3 * * ?")
     public void runNoticeJob() throws Exception {
         JobParameters jobParameters = new JobParametersBuilder()
                 .addLong("time", System.currentTimeMillis())
