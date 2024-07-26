@@ -1,12 +1,22 @@
 package com.maple.domain;
 
+import lombok.Data;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.Locale;
 
+@Data
 public abstract class Information {
+    private Long id;
+
+    private String title;
+
+    private String url;
+
+    private String date;
+
     // OffsetDateTime → LocalDate + (요일) 변환
     public static String convertTime(String string) {
         string = string.substring(1, string.length() - 1);
