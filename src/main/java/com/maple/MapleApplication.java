@@ -1,6 +1,7 @@
 package com.maple;
 
 import com.maple.service.NoticeService;
+import com.maple.service.UpdateService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @RequiredArgsConstructor
 public class MapleApplication {
 	private final NoticeService noticeService;
+	private final UpdateService updateService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(MapleApplication.class, args);
@@ -22,5 +24,6 @@ public class MapleApplication {
 	@PostConstruct
 	public void init() {
 		noticeService.fetchNotices();
+		updateService.fetchUpdates();
 	}
 }
