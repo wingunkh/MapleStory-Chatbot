@@ -1,6 +1,7 @@
 package com.maple.config;
 
 import com.maple.batch.NoticeTasklet;
+import com.maple.batch.UpdateTasklet;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -27,9 +28,10 @@ import org.springframework.transaction.PlatformTransactionManager;
 @RequiredArgsConstructor
 public class BatchConfig extends DefaultBatchConfiguration {
     @Bean
-    public Job noticeJob(JobRepository jobRepository, Step noticeStep) {
-        return new JobBuilder("noticeJob", jobRepository)
+    public Job myJob(JobRepository jobRepository, Step noticeStep, Step updateStep) {
+        return new JobBuilder("myJob", jobRepository)
                 .start(noticeStep)
+                .next(updateStep)
                 .build();
     }
 
@@ -37,6 +39,13 @@ public class BatchConfig extends DefaultBatchConfiguration {
     public Step noticeStep(JobRepository jobRepository, NoticeTasklet noticeTasklet, PlatformTransactionManager transactionManager) {
         return new StepBuilder("noticeStep", jobRepository)
                 .tasklet(noticeTasklet, transactionManager)
+                .build();
+    }
+
+    @Bean
+    public Step updateStep(JobRepository jobRepository, UpdateTasklet updateTasklet, PlatformTransactionManager transactionManager) {
+        return new StepBuilder("updateStep", jobRepository)
+                .tasklet(updateTasklet, transactionManager)
                 .build();
     }
 }
