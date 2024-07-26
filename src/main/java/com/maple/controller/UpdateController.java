@@ -13,13 +13,13 @@ import java.util.HashMap;
 public class UpdateController {
     private final UpdateService updateService;
 
-    // 공지사항 조회
+    // 업데이트 조회
     @PostMapping("/get")
     public HashMap<String, Object> findAllUpdate() {
         return updateService.findAllUpdate();
     }
 
-    // 공지사항 패치 (for test)
+    // 업데이트 패치 (for test)
     @PostMapping("/fetch")
     public String fetchUpdates() {
         updateService.fetchUpdates();
