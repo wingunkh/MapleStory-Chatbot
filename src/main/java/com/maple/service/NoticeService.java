@@ -43,6 +43,6 @@ public class NoticeService extends InformationService<Notice> {
     }
 
     public HashMap<String, Object> findAllNotice() {
-        return parseInformationToJson(noticeRepository.findAll(), "공지");
+        return parseInformationToJsonString(noticeRepository.findAll(), "공지");
     }
 }

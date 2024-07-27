@@ -44,6 +44,6 @@ public class UpdateService extends InformationService<ClientUpdate> {
     }
 
     public HashMap<String, Object> findAllUpdate() {
-        return parseInformationToJson(updateRepository.findAll(), "업데이트");
+        return parseInformationToJsonString(updateRepository.findAll(), "업데이트");
     }
 }

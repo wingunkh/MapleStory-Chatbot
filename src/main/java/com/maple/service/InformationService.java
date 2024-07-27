@@ -37,7 +37,7 @@ public abstract class InformationService<T extends Information> {
         return rootNode.get(rootNodeName);
     }
 
-    protected HashMap<String, Object> parseInformationToJson(List<T> informationList, String info) {
+    protected HashMap<String, Object> parseInformationToJsonString(List<T> informationList, String info) {
         HashMap<String, Object> jsonString = new HashMap<>();
         jsonString.put("version", "2.0");
 
