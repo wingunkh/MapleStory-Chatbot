@@ -18,12 +18,4 @@ public class UpdateController {
     public HashMap<String, Object> findAllUpdate() {
         return updateService.findAllUpdate();
     }
-
-    // 업데이트 패치 (for test)
-    @PostMapping("/fetch")
-    public String fetchUpdates() {
-        updateService.fetchUpdates();
-
-        return "";
-    }
 }

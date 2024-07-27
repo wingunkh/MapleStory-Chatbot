@@ -10,7 +10,8 @@ import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Configuration;;
+import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.transaction.PlatformTransactionManager;
 
 /*
@@ -25,6 +26,7 @@ import org.springframework.transaction.PlatformTransactionManager;
     JobRepository: 배치 처리 중 메타데이터 테이블에 액세스하는 클래스
  */
 @Configuration
+@EnableRetry
 @RequiredArgsConstructor
 public class BatchConfig extends DefaultBatchConfiguration {
     @Bean

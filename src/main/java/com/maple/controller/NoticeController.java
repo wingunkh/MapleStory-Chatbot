@@ -18,12 +18,4 @@ public class NoticeController {
     public HashMap<String, Object> findAllNotice() {
         return noticeService.findAllNotice();
     }
-
-    // 공지사항 패치 (for test)
-    @PostMapping("/fetch")
-    public String fetchNotices() {
-        noticeService.fetchNotices();
-
-        return "";
-    }
 }
