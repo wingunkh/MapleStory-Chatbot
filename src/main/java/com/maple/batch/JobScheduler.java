@@ -4,13 +4,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.*;
 import org.springframework.batch.core.launch.JobLauncher;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.stereotype.Component;
 
-@Configuration
-@EnableScheduling
+@Component
+@EnableScheduling // Spring Scheduling 활성화
 @RequiredArgsConstructor
 @Slf4j
 public class JobScheduler {
@@ -23,8 +22,9 @@ public class JobScheduler {
         executeJob();
     }
 
-    @Async // 메인 스레드의 블로킹 방지를 위해 비동기 처리
     public void executeJob() {
+        long start = System.currentTimeMillis();
+
         try {
             JobParameters jobParameters = new JobParametersBuilder()
                     .addLong("time", System.currentTimeMillis())
@@ -34,7 +34,8 @@ public class JobScheduler {
             JobExecution jobExecution = jobLauncher.run(job, jobParameters);
 
             if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
-                log.info("Job Execution Completed: " + jobExecution);
+                log.info("Job Execution Completed");
+                log.info("Job Duration : {}ms", System.currentTimeMillis() - start);
             } else {
                 log.error("Job Execution Failed");
             }
