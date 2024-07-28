@@ -23,8 +23,6 @@ public class JobScheduler {
     }
 
     public void executeJob() {
-        long start = System.currentTimeMillis();
-
         try {
             JobParameters jobParameters = new JobParametersBuilder()
                     .addLong("time", System.currentTimeMillis())
@@ -33,10 +31,7 @@ public class JobScheduler {
 
             JobExecution jobExecution = jobLauncher.run(job, jobParameters);
 
-            if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
-                log.info("Job Execution Completed");
-                log.info("Job Duration : {}ms", System.currentTimeMillis() - start);
-            } else {
+            if (jobExecution.getStatus() == BatchStatus.FAILED) {
                 log.error("Job Execution Failed");
             }
         } catch (Exception e) {
@@ -44,3 +39,12 @@ public class JobScheduler {
         }
     }
 }
+
+    /*
+        [Trouble Shooting]
+        기존 Line 34의 경우 (jobExecution.getStatus() == BatchStatus.COMPLETED) 조건을 만족할 때 소요 시간을 로깅
+        그러나 BatchConfig.java에서 각 Step을 비동기 병렬 처리하도록 변경한 후,
+        Job이 성공적으로 수행되었음에도 소요 시간을 측정할 수 없는 문제가 발생
+        원인은 각 Step이 비동기 병렬 처리 중이기 때문에, jobLauncher.run() 메서드를 호출한 이후 BatchStatus가 STARTING이였기 때문
+        즉, 기존 로깅 방식이 잘못되었음을 알 수 있었고 JobExecutionListener를 통해 로깅하도록 변경함
+    */
