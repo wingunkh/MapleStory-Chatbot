@@ -3,7 +3,6 @@ package com.maple.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.maple.domain.Information;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public abstract class InformationService<T extends Information> {
+public abstract class InformationService {
     protected ResponseEntity<String> sendHttpRequest(String key, RestTemplate restTemplate, String API_URL) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("accept", "application/json");
@@ -37,7 +36,7 @@ public abstract class InformationService<T extends Information> {
         return rootNode.get(rootNodeName);
     }
 
-    protected HashMap<String, Object> parseInformationToJsonString(List<T> informationList, String info) {
+    protected HashMap<String, Object> createJsonTemplate() {
         HashMap<String, Object> jsonString = new HashMap<>();
         jsonString.put("version", "2.0");
 
@@ -53,19 +52,17 @@ public abstract class InformationService<T extends Information> {
         HashMap<String, Object> text = new HashMap<>();
         simpleText.put("simpleText", text);
 
-        StringBuilder result = new StringBuilder();
-        text.put("text", result);
-
-        for (T information : informationList) {
-            result.append(
-                    String.join("\n",
-                            "▶ " + information.getTitle(),
-                            "☞ " + info + " 링크: " + information.getUrl(),
-                            "☞ " + info + " 날짜: " + information.getDate()
-                    ) // 오버라이드된 메서드가 호출됨
-            ).append("\n\n");
-        }
-
         return jsonString;
+    }
+
+    @SuppressWarnings("unchecked")
+    protected HashMap<String, Object> extractSimpleText(HashMap<String, Object> jsonString) {
+        HashMap<String, Object> template = (HashMap<String, Object>) jsonString.get("template");
+
+        List<HashMap<String, Object>> outputs = (List<HashMap<String, Object>>) template.get("outputs");
+
+        HashMap<String, Object> simpleText = outputs.get(0);
+
+        return (HashMap<String, Object>) simpleText.get("simpleText");
     }
 }

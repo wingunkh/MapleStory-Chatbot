@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class NoticeService extends InformationService<Notice> {
+public class NoticeService extends InformationService {
     @Value("${api.key}")
     private String key;
     private static final String API_URL = "https://open.api.nexon.com/maplestory/v1/notice";
@@ -43,6 +43,24 @@ public class NoticeService extends InformationService<Notice> {
     }
 
     public HashMap<String, Object> findAllNotice() {
-        return parseInformationToJsonString(noticeRepository.findAll(), "공지");
+        HashMap<String, Object> jsonString = createJsonTemplate();
+
+        HashMap<String, Object> simpleText = extractSimpleText(jsonString);
+
+        StringBuilder result = new StringBuilder();
+
+        for (Notice notice : noticeRepository.findAll()) {
+            result.append(
+                    String.join("\n",
+                            "▶ " + notice.getTitle(),
+                            "☞ 공지 링크: " + notice.getUrl(),
+                            "☞ 공지 날짜: " + notice.getDate()
+                    )
+            ).append("\n\n");
+        }
+
+        simpleText.put("text", result.toString());
+
+        return jsonString;
     }
 }
