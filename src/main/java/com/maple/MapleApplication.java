@@ -1,5 +1,6 @@
 package com.maple;
 
+import com.maple.service.EventService;
 import com.maple.service.NoticeService;
 import com.maple.service.UpdateService;
 import jakarta.annotation.PostConstruct;
@@ -12,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class MapleApplication {
 	private final NoticeService noticeService;
 	private final UpdateService updateService;
+	private final EventService eventService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(MapleApplication.class, args);
@@ -23,7 +25,8 @@ public class MapleApplication {
 	// @PreDestroy : 소멸 전 콜백 (빈이 소멸되기 직전에 호출)
 	@PostConstruct
 	public void init() {
-		noticeService.fetchNotices();
-		updateService.fetchUpdates();
+//		noticeService.fetchNotices();
+//		updateService.fetchUpdates();
+//		eventService.fetchEvents();
 	}
 }

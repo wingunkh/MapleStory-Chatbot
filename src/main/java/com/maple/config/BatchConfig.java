@@ -1,5 +1,6 @@
 package com.maple.config;
 
+import com.maple.batch.EventTasklet;
 import com.maple.batch.NoticeTasklet;
 import com.maple.batch.UpdateTasklet;
 import jakarta.annotation.Nonnull;
@@ -52,11 +53,12 @@ public class BatchConfig {
     }
 
 //    @Bean
-//    public Job myJob(JobRepository jobRepository, Step noticeStep, Step updateStep, JobExecutionListener jobExecutionListener) {
+//    public Job myJob(JobRepository jobRepository, Step noticeStep, Step updateStep, Step eventStep, JobExecutionListener jobExecutionListener) {
 //        return new JobBuilder("myJob", jobRepository)
 //                .listener(jobExecutionListener)
 //                .start(noticeStep)
 //                .next(updateStep)
+//                .next(eventStep)
 //                .build();
 //    }
 
@@ -75,19 +77,28 @@ public class BatchConfig {
     }
 
     @Bean
+    public Step eventStep(JobRepository jobRepository, EventTasklet eventTasklet, PlatformTransactionManager transactionManager) {
+        return new StepBuilder("eventStep", jobRepository)
+                .tasklet(eventTasklet, transactionManager)
+                .build();
+    }
+
+    @Bean
     public TaskExecutor taskExecutor() {
         return new SimpleAsyncTaskExecutor("batchExecutor");
     }
 
     @Bean
-    public Flow parallelFlow(Step noticeStep, Step updateStep) {
+    public Flow parallelFlow(Step noticeStep, Step updateStep, Step eventStep) {
         return new FlowBuilder<Flow>("parallelFlow")
                 .split(taskExecutor())
                 .add(
                         new FlowBuilder<Flow>("flow1").start(noticeStep).build(),
-                        new FlowBuilder<Flow>("flow2").start(updateStep).build()
+                        new FlowBuilder<Flow>("flow2").start(updateStep).build(),
+                        new FlowBuilder<Flow>("flow3").start(eventStep).build()
                 )
                 .build();
+        // noticeStep, updateStep, eventStep이 각각 독립적인 스레드에서 병렬적으로 (동시에) 실행됨
     }
 
     @Bean
