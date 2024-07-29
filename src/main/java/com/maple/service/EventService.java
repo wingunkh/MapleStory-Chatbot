@@ -56,7 +56,7 @@ public class EventService extends InformationService {
                             "▶ " + event.getTitle(),
                             "☞ 이벤트 링크: " + event.getUrl(),
                             "☞ 이벤트 시작 날짜: " + event.getStartDate(),
-                            "☞ 이벤트 종료 날짜: " + event.getStartDate()
+                            "☞ 이벤트 종료 날짜: " + event.getEndDate()
                     )
             ).append("\n\n");
         }
