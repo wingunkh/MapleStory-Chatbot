@@ -2,6 +2,7 @@ package com.maple.config;
 
 import com.maple.batch.EventTasklet;
 import com.maple.batch.NoticeTasklet;
+import com.maple.batch.ShopTasklet;
 import com.maple.batch.UpdateTasklet;
 import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
@@ -53,12 +54,13 @@ public class BatchConfig {
     }
 
 //    @Bean
-//    public Job myJob(JobRepository jobRepository, Step noticeStep, Step updateStep, Step eventStep, JobExecutionListener jobExecutionListener) {
+//    public Job myJob(JobRepository jobRepository, Step noticeStep, Step updateStep, Step eventStep, Step shopStep, JobExecutionListener jobExecutionListener) {
 //        return new JobBuilder("myJob", jobRepository)
 //                .listener(jobExecutionListener)
 //                .start(noticeStep)
 //                .next(updateStep)
 //                .next(eventStep)
+//                .next(shopStep)
 //                .build();
 //    }
 
@@ -84,21 +86,29 @@ public class BatchConfig {
     }
 
     @Bean
+    public Step shopStep(JobRepository jobRepository, ShopTasklet shopTasklet, PlatformTransactionManager transactionManager) {
+        return new StepBuilder("shopStep", jobRepository)
+                .tasklet(shopTasklet, transactionManager)
+                .build();
+    }
+
+    @Bean
     public TaskExecutor taskExecutor() {
         return new SimpleAsyncTaskExecutor("batchExecutor");
     }
 
     @Bean
-    public Flow parallelFlow(Step noticeStep, Step updateStep, Step eventStep) {
+    public Flow parallelFlow(Step noticeStep, Step updateStep, Step eventStep, Step shopStep) {
         return new FlowBuilder<Flow>("parallelFlow")
                 .split(taskExecutor())
                 .add(
                         new FlowBuilder<Flow>("flow1").start(noticeStep).build(),
                         new FlowBuilder<Flow>("flow2").start(updateStep).build(),
-                        new FlowBuilder<Flow>("flow3").start(eventStep).build()
+                        new FlowBuilder<Flow>("flow3").start(eventStep).build(),
+                        new FlowBuilder<Flow>("flow4").start(shopStep).build()
                 )
                 .build();
-        // noticeStep, updateStep, eventStep이 각각 독립적인 스레드에서 병렬적으로 (동시에) 실행됨
+        // noticeStep, updateStep, eventStep, shopStep이 각각 독립적인 스레드에서 병렬적으로 (동시에) 실행됨
     }
 
     @Bean
