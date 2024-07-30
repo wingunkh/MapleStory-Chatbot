@@ -33,7 +33,6 @@ public class EventService extends InformationService {
         for (JsonNode eventNode : eventNodes) {
             Event event = new Event();
             event.setTitle(eventNode.get("title").asText());
-            event.setTitle(eventNode.get("title").asText());
             event.setUrl(eventNode.get("url").asText());
             event.setStartDate(Event.convertTime(String.valueOf(eventNode.get("date_event_start"))));
             event.setEndDate(Event.convertTime(String.valueOf(eventNode.get("date_event_end"))));
