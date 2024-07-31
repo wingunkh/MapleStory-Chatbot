@@ -5,6 +5,8 @@ import com.maple.domain.Event;
 import com.maple.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +25,7 @@ public class EventService extends InformationService {
     private final EventRepository eventRepository;
 
     @Transactional
+    @CacheEvict(value = "myCache", allEntries = true)
     public void fetchEvents() {
         ResponseEntity<String> httpResponse = sendHttpRequest(key, restTemplate, API_URL);
 
@@ -42,6 +45,7 @@ public class EventService extends InformationService {
         eventRepository.saveAll(events);
     }
 
+    @Cacheable(value = "myCache", key = "'event'")
     public HashMap<String, Object> findAllEvent() {
         HashMap<String, Object> jsonString = createJsonTemplate();
 
