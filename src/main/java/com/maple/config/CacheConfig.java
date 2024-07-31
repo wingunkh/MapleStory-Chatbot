@@ -19,7 +19,7 @@ public class CacheConfig {
     @Bean
     public CacheManager ehcacheManager() {
         CacheConfiguration<String, HashMap> cacheConfig = CacheConfigurationBuilder
-                .newCacheConfigurationBuilder(String.class, HashMap.class, ResourcePoolsBuilder.heap(5))
+                .newCacheConfigurationBuilder(String.class, HashMap.class, ResourcePoolsBuilder.heap(4))
                 // heap 메모리: JVM에서 관리하는 메모리 영역, Java 객체가 생성되고 관리됨
                 // 4개의 엔트리 (공지사항, 업데이트, 이벤트, 캐시샵 공지사항) 유지
                 .withExpiry(ExpiryPolicyBuilder.noExpiration())

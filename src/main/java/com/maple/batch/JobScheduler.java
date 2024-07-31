@@ -17,8 +17,7 @@ public class JobScheduler {
     private final JobLauncher jobLauncher;
 
     // @Scheduled(cron = "0 0 3 * * ?") // 매일 새벽 3시
-    // @Scheduled(initialDelay = 1000)
-    @Scheduled(fixedRate = 30000)
+    @Scheduled(initialDelay = 1000)
     public void runJob() {
         executeJob();
     }

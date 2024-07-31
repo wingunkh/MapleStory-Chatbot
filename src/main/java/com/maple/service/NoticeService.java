@@ -5,6 +5,8 @@ import com.maple.domain.Notice;
 import com.maple.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +26,7 @@ public class NoticeService extends InformationService {
     private final NoticeRepository noticeRepository;
 
     @Transactional
+    @CacheEvict(value = "myCache", allEntries = true)
     public void fetchNotices() {
         ResponseEntity<String> httpResponse = sendHttpRequest(key, restTemplate, API_URL);
 
@@ -42,6 +45,7 @@ public class NoticeService extends InformationService {
         noticeRepository.saveAll(notices.stream().limit(10).collect(Collectors.toList()));
     }
 
+    @Cacheable(value = "myCache", key = "'notice'")
     public HashMap<String, Object> findAllNotice() {
         HashMap<String, Object> jsonString = createJsonTemplate();
 

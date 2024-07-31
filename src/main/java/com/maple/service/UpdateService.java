@@ -5,6 +5,8 @@ import com.maple.domain.ClientUpdate;
 import com.maple.repository.UpdateRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +26,7 @@ public class UpdateService extends InformationService {
     private final UpdateRepository updateRepository;
 
     @Transactional
+    @CacheEvict(value = "myCache", allEntries = true)
     public void fetchUpdates() {
         ResponseEntity<String> httpResponse = sendHttpRequest(key, restTemplate, API_URL);
 
@@ -42,6 +45,7 @@ public class UpdateService extends InformationService {
         updateRepository.saveAll(clientUpdates.stream().limit(10).collect(Collectors.toList()));
     }
 
+    @Cacheable(value = "myCache", key = "'update'")
     public HashMap<String, Object> findAllUpdate() {
         HashMap<String, Object> jsonString = createJsonTemplate();
 

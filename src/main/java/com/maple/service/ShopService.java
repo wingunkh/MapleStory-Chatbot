@@ -5,6 +5,8 @@ import com.maple.domain.Shop;
 import com.maple.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +25,7 @@ public class ShopService extends InformationService {
     private final ShopRepository shopRepository;
 
     @Transactional
+    @CacheEvict(value = "myCache", allEntries = true)
     public void fetchShops() {
         ResponseEntity<String> httpResponse = sendHttpRequest(key, restTemplate, API_URL);
 
@@ -52,6 +55,7 @@ public class ShopService extends InformationService {
         shopRepository.saveAll(shops);
     }
 
+    @Cacheable(value = "myCache", key = "'shop'")
     public HashMap<String, Object> findAllShop() {
         HashMap<String, Object> jsonString = createJsonTemplate();
 
