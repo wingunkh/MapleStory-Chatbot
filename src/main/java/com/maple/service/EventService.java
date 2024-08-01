@@ -47,9 +47,9 @@ public class EventService extends InformationService {
 
     @Cacheable(value = "myCache", key = "'event'")
     public HashMap<String, Object> findAllEvent() {
-        HashMap<String, Object> jsonString = createJsonTemplate();
+        HashMap<String, Object> jsonData = createJsonData();
 
-        HashMap<String, Object> simpleText = extractSimpleText(jsonString);
+        HashMap<String, Object> simpleText = extractSimpleText(jsonData);
 
         StringBuilder result = new StringBuilder();
 
@@ -66,6 +66,6 @@ public class EventService extends InformationService {
 
         simpleText.put("text", result.toString());
 
-        return jsonString;
+        return jsonData;
     }
 }

@@ -57,9 +57,9 @@ public class ShopService extends InformationService {
 
     @Cacheable(value = "myCache", key = "'shop'")
     public HashMap<String, Object> findAllShop() {
-        HashMap<String, Object> jsonString = createJsonTemplate();
+        HashMap<String, Object> jsonData = createJsonData();
 
-        HashMap<String, Object> simpleText = extractSimpleText(jsonString);
+        HashMap<String, Object> simpleText = extractSimpleText(jsonData);
 
         StringBuilder result = new StringBuilder();
 
@@ -76,7 +76,7 @@ public class ShopService extends InformationService {
 
         simpleText.put("text", result.toString());
 
-        return jsonString;
+        return jsonData;
     }
 
     private Boolean isNull(String start, String end) {

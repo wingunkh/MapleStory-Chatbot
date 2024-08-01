@@ -47,9 +47,9 @@ public class NoticeService extends InformationService {
 
     @Cacheable(value = "myCache", key = "'notice'")
     public HashMap<String, Object> findAllNotice() {
-        HashMap<String, Object> jsonString = createJsonTemplate();
+        HashMap<String, Object> jsonData = createJsonData();
 
-        HashMap<String, Object> simpleText = extractSimpleText(jsonString);
+        HashMap<String, Object> simpleText = extractSimpleText(jsonData);
 
         StringBuilder result = new StringBuilder();
 
@@ -65,6 +65,6 @@ public class NoticeService extends InformationService {
 
         simpleText.put("text", result.toString());
 
-        return jsonString;
+        return jsonData;
     }
 }

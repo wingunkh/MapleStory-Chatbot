@@ -36,12 +36,12 @@ public abstract class InformationService {
         return rootNode.get(rootNodeName);
     }
 
-    protected HashMap<String, Object> createJsonTemplate() {
-        HashMap<String, Object> jsonString = new HashMap<>();
-        jsonString.put("version", "2.0");
+    protected HashMap<String, Object> createJsonData() {
+        HashMap<String, Object> jsonData = new HashMap<>();
+        jsonData.put("version", "2.0");
 
         HashMap<String, Object> template = new HashMap<>();
-        jsonString.put("template", template);
+        jsonData.put("template", template);
 
         List<HashMap<String, Object>> outputs = new ArrayList<>();
         template.put("outputs", outputs);
@@ -52,12 +52,12 @@ public abstract class InformationService {
         HashMap<String, Object> text = new HashMap<>();
         simpleText.put("simpleText", text);
 
-        return jsonString;
+        return jsonData;
     }
 
     @SuppressWarnings("unchecked")
-    protected HashMap<String, Object> extractSimpleText(HashMap<String, Object> jsonString) {
-        HashMap<String, Object> template = (HashMap<String, Object>) jsonString.get("template");
+    protected HashMap<String, Object> extractSimpleText(HashMap<String, Object> jsonData) {
+        HashMap<String, Object> template = (HashMap<String, Object>) jsonData.get("template");
 
         List<HashMap<String, Object>> outputs = (List<HashMap<String, Object>>) template.get("outputs");
 
