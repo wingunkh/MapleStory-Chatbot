@@ -2,10 +2,11 @@ package com.maple.controller;
 
 import com.maple.service.ShopService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.HashMap;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,7 +16,7 @@ public class ShopController {
 
     // 캐시샵 공지사항 조회
     @PostMapping("/get")
-    public HashMap<String, Object> findAllShop() {
-        return shopService.findAllShop();
+    public ResponseEntity<Object> findAllShop() {
+        return ResponseEntity.status(HttpStatus.OK).body(shopService.findAllShop());
     }
 }
