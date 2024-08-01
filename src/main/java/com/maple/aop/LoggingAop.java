@@ -37,7 +37,7 @@ public class LoggingAop {
         Object proceed = joinPoint.proceed();
 
         // 메서드 시그니처와 실행 시간을 로깅
-        log.info("{}() 메서드 실행 시간 : {} ms", joinPoint.getSignature().getName(), System.currentTimeMillis() - System.currentTimeMillis());
+        log.info("{}() 메서드 실행 시간 : {} ms", joinPoint.getSignature().getName(), System.currentTimeMillis() - startTime);
 
         // 메서드 실행 결과 반환
         return proceed;
