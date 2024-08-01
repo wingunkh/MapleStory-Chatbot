@@ -2,7 +2,6 @@ package com.maple.controller;
 
 import com.maple.service.EventService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,20 +12,13 @@ import java.util.HashMap;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/event")
-@Slf4j
 public class EventController {
     private final EventService eventService;
 
     // 이벤트 조회
     @PostMapping("/get")
     public HashMap<String, Object> findAllEvent() {
-        long startTime = System.currentTimeMillis();
-
-        HashMap<String, Object> tmp = eventService.findAllEvent();
-
-        log.info("findAllEvent() Duration: {}ms", System.currentTimeMillis() - startTime);
-
-        return tmp;
+        return eventService.findAllEvent();
     }
 
     // 이벤트 패치 (for test)

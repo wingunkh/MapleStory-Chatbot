@@ -29,13 +29,9 @@ public class JobScheduler {
                     // JobParameters는 Job 인스턴스 식별을 위해 고유한 값을 포함해야 함
                     .toJobParameters();
 
-            JobExecution jobExecution = jobLauncher.run(job, jobParameters);
+            jobLauncher.run(job, jobParameters);
+        } catch (Exception ignored) {
 
-            if (jobExecution.getStatus() == BatchStatus.FAILED) {
-                log.error("Job Execution Failed");
-            }
-        } catch (Exception e) {
-            log.error("Job Execution Failed");
         }
     }
 }
