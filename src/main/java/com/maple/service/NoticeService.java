@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class NoticeService extends InformationService {
     @Value("${api.key}")
     private String key;
-    private static final String API_URL = "https://open.api.nexon.com/maplestory/v1/noticex";
+    private static final String API_URL = "https://open.api.nexon.com/maplestory/v1/notice";
     private final RestTemplate restTemplate;
     private final NoticeRepository noticeRepository;
 
