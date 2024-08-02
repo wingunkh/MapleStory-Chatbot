@@ -53,7 +53,13 @@ public class EventService extends InformationService {
 
         StringBuilder result = new StringBuilder();
 
-        for (Event event : eventRepository.findAll()) {
+        List<Event> events = eventRepository.findAll();
+
+        if (events.isEmpty()) {
+            throw new RuntimeException();
+        }
+
+        for (Event event : events) {
             result.append(
                     String.join("\n",
                             "▶ " + event.getTitle(),

@@ -53,7 +53,13 @@ public class UpdateService extends InformationService {
 
         StringBuilder result = new StringBuilder();
 
-        for (ClientUpdate clientUpdate : updateRepository.findAll()) {
+        List<ClientUpdate> clientUpdates = updateRepository.findAll();
+
+        if (clientUpdates.isEmpty()) {
+            throw new RuntimeException();
+        }
+
+        for (ClientUpdate clientUpdate : clientUpdates) {
             result.append(
                     String.join("\n",
                             "▶ " + clientUpdate.getTitle(),

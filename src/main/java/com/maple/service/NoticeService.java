@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class NoticeService extends InformationService {
     @Value("${api.key}")
     private String key;
-    private static final String API_URL = "https://open.api.nexon.com/maplestory/v1/notice";
+    private static final String API_URL = "https://open.api.nexon.com/maplestory/v1/noticex";
     private final RestTemplate restTemplate;
     private final NoticeRepository noticeRepository;
 
@@ -53,7 +53,13 @@ public class NoticeService extends InformationService {
 
         StringBuilder result = new StringBuilder();
 
-        for (Notice notice : noticeRepository.findAll()) {
+        List<Notice> notices = noticeRepository.findAll();
+
+        if (notices.isEmpty()) {
+            throw new RuntimeException();
+        }
+
+        for (Notice notice : notices) {
             result.append(
                     String.join("\n",
                             "▶ " + notice.getTitle(),

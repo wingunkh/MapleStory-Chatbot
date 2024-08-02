@@ -63,7 +63,13 @@ public class ShopService extends InformationService {
 
         StringBuilder result = new StringBuilder();
 
-        for (Shop shop : shopRepository.findAll()) {
+        List<Shop> shops = shopRepository.findAll();
+
+        if (shops.isEmpty()) {
+            throw new RuntimeException();
+        }
+
+        for (Shop shop : shops) {
             result.append(
                     String.join("\n",
                             "▶ " + shop.getTitle(),
