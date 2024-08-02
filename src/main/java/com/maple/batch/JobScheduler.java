@@ -13,11 +13,10 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Slf4j
 public class JobScheduler {
-    private final Job job;
+    private final Job myJob;
     private final JobLauncher jobLauncher;
 
-    // @Scheduled(cron = "0 0 3 * * ?") // 매일 새벽 3시
-    @Scheduled(initialDelay = 1000)
+    @Scheduled(cron = "0 0 3 * * ?") // 매일 새벽 3시
     public void runJob() {
         executeJob();
     }
@@ -29,9 +28,9 @@ public class JobScheduler {
                     // JobParameters는 Job 인스턴스 식별을 위해 고유한 값을 포함해야 함
                     .toJobParameters();
 
-            jobLauncher.run(job, jobParameters);
-        } catch (Exception ignored) {
-
+            jobLauncher.run(myJob, jobParameters);
+        } catch (Exception e) {
+            log.error("Job Execution Error: ", e);
         }
     }
 }
