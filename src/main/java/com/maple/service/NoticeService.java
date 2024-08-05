@@ -36,6 +36,7 @@ public class NoticeService extends InformationService {
 
         for (JsonNode noticeNode : noticeNodes) {
             Notice notice = new Notice();
+            notice.setId(noticeNode.get("notice_id").asLong());
             notice.setTitle(noticeNode.get("title").asText());
             notice.setUrl(noticeNode.get("url").asText());
             notice.setDate(Notice.convertTime(String.valueOf(noticeNode.get("date"))));

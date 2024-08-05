@@ -36,6 +36,7 @@ public class UpdateService extends InformationService {
 
         for (JsonNode clientUpdateNode : clientUpdateNodes) {
             ClientUpdate clientUpdate = new ClientUpdate();
+            clientUpdate.setId(clientUpdateNode.get("notice_id").asLong());
             clientUpdate.setTitle(clientUpdateNode.get("title").asText());
             clientUpdate.setUrl(clientUpdateNode.get("url").asText());
             clientUpdate.setDate(ClientUpdate.convertTime(String.valueOf(clientUpdateNode.get("date"))));

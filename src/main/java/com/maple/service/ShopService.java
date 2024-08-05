@@ -36,6 +36,7 @@ public class ShopService extends InformationService {
 
         for (JsonNode shopNode : shopNodes) {
             Shop shop = new Shop();
+            shop.setId(shopNode.get("notice_id").asLong());
             shop.setTitle(shopNode.get("title").asText());
             shop.setUrl(shopNode.get("url").asText());
 
