@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -52,7 +53,7 @@ public class ShopService extends InformationService {
             shops.add(shop);
         }
 
-        shopRepository.saveAll(shops);
+        shopRepository.saveAll(shops.stream().limit(10).collect(Collectors.toList()));
     }
 
     @Cacheable(value = "myCache", key = "'shop'")

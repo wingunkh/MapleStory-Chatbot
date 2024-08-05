@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +43,7 @@ public class EventService extends InformationService {
             events.add(event);
         }
 
-        eventRepository.saveAll(events);
+        eventRepository.saveAll(events.stream().limit(10).collect(Collectors.toList()));
     }
 
     @Cacheable(value = "myCache", key = "'event'")
