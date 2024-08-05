@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +41,7 @@ public class UpdateService extends InformationService {
             clientUpdate.setTitle(clientUpdateNode.get("title").asText());
             clientUpdate.setUrl(clientUpdateNode.get("url").asText());
             clientUpdate.setDate(ClientUpdate.convertTime(String.valueOf(clientUpdateNode.get("date"))));
+            clientUpdate.setLocalDateTime(LocalDateTime.now());
             clientUpdates.add(clientUpdate);
         }
 

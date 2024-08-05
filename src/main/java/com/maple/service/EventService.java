@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +42,7 @@ public class EventService extends InformationService {
             event.setUrl(eventNode.get("url").asText());
             event.setStartDate(Event.convertTime(String.valueOf(eventNode.get("date_event_start"))));
             event.setEndDate(Event.convertTime(String.valueOf(eventNode.get("date_event_end"))));
+            event.setLocalDateTime(LocalDateTime.now());
             events.add(event);
         }
 

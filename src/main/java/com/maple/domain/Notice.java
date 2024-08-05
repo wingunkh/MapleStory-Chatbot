@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -17,4 +18,6 @@ public class Notice extends Information {
     private String url;
 
     private String date;
+
+    private LocalDateTime localDateTime;
 }

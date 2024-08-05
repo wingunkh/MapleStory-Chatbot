@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -19,4 +20,6 @@ public class Shop extends Information {
     private String startDate;
 
     private String endDate;
+
+    private LocalDateTime localDateTime;
 }

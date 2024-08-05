@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +41,7 @@ public class NoticeService extends InformationService {
             notice.setTitle(noticeNode.get("title").asText());
             notice.setUrl(noticeNode.get("url").asText());
             notice.setDate(Notice.convertTime(String.valueOf(noticeNode.get("date"))));
+            notice.setLocalDateTime(LocalDateTime.now());
             notices.add(notice);
         }
 
