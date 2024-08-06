@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,7 +58,7 @@ public class EventService extends InformationService {
 
         StringBuilder result = new StringBuilder();
 
-        List<Event> events = eventRepository.findAll();
+        List<Event> events = eventRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
 
         if (events.isEmpty()) {
             throw new RuntimeException();
