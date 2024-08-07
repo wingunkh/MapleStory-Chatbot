@@ -64,6 +64,8 @@ public class EventService extends InformationService {
             throw new RuntimeException();
         }
 
+        result.append("(").append(events.get(0).getLocalDateTime().toLocalDate()).append(" 기준)").append("\n\n");
+
         for (Event event : events) {
             result.append(
                     String.join("\n",

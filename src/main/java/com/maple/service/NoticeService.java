@@ -63,6 +63,8 @@ public class NoticeService extends InformationService {
             throw new RuntimeException();
         }
 
+        result.append("(").append(notices.get(0).getLocalDateTime().toLocalDate()).append(" 기준)").append("\n\n");
+
         for (Notice notice : notices) {
             result.append(
                     String.join("\n",
