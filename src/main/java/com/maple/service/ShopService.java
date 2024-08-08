@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +35,8 @@ public class ShopService extends InformationService {
 
         List<Shop> shops = new ArrayList<>();
 
-        for (JsonNode shopNode : shopNodes) {
+        for (int i = 0; i < Math.min(shopNodes.size(), 10); i++) {
+            JsonNode shopNode = shopNodes.get(i);
             Shop shop = new Shop();
             shop.setId(shopNode.get("notice_id").asLong());
             shop.setTitle(shopNode.get("title").asText());
@@ -57,7 +57,8 @@ public class ShopService extends InformationService {
             shops.add(shop);
         }
 
-        shopRepository.saveAll(shops.stream().limit(10).collect(Collectors.toList()));
+        shopRepository.deleteAll();
+        shopRepository.saveAll(shops);
     }
 
     @Cacheable(value = "myCache", key = "'shop'")

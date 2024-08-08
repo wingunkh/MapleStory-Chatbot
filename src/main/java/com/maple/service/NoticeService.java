@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +35,8 @@ public class NoticeService extends InformationService {
 
         List<Notice> notices = new ArrayList<>();
 
-        for (JsonNode noticeNode : noticeNodes) {
+        for (int i = 0; i < Math.min(noticeNodes.size(), 10); i++) {
+            JsonNode noticeNode = noticeNodes.get(i);
             Notice notice = new Notice();
             notice.setId(noticeNode.get("notice_id").asLong());
             notice.setTitle(noticeNode.get("title").asText());
@@ -46,7 +46,8 @@ public class NoticeService extends InformationService {
             notices.add(notice);
         }
 
-        noticeRepository.saveAll(notices.stream().limit(10).collect(Collectors.toList()));
+        noticeRepository.deleteAll();
+        noticeRepository.saveAll(notices);
     }
 
     @Cacheable(value = "myCache", key = "'notice'")

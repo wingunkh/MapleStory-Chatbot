@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +35,8 @@ public class EventService extends InformationService {
 
         List<Event> events = new ArrayList<>();
 
-        for (JsonNode eventNode : eventNodes) {
+        for (int i = 0; i < Math.min(eventNodes.size(), 10); i++) {
+            JsonNode eventNode = eventNodes.get(i);
             Event event = new Event();
             event.setId(eventNode.get("notice_id").asLong());
             event.setTitle(eventNode.get("title").asText());
@@ -47,7 +47,8 @@ public class EventService extends InformationService {
             events.add(event);
         }
 
-        eventRepository.saveAll(events.stream().limit(10).collect(Collectors.toList()));
+        eventRepository.deleteAll();
+        eventRepository.saveAll(events);
     }
 
     @Cacheable(value = "myCache", key = "'event'")
