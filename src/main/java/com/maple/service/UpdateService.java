@@ -64,7 +64,7 @@ public class UpdateService extends InformationService {
             throw new RuntimeException();
         }
 
-        result.append("(").append(clientUpdates.get(0).getLocalDateTime().toLocalDate()).append(" 기준)").append("\n\n");
+        result.append("(").append(clientUpdates.get(0).getLocalDateTime().toLocalDate()).append(" 오전 03:00 기준)").append("\n\n");
 
         for (ClientUpdate clientUpdate : clientUpdates) {
             result.append(

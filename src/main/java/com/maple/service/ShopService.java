@@ -75,7 +75,7 @@ public class ShopService extends InformationService {
             throw new RuntimeException();
         }
 
-        result.append("(").append(shops.get(0).getLocalDateTime().toLocalDate()).append(" 기준)").append("\n\n");
+        result.append("(").append(shops.get(0).getLocalDateTime().toLocalDate()).append(" 오전 03:00 기준)").append("\n\n");
 
         for (Shop shop : shops) {
             result.append(
