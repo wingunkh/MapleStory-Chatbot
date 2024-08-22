@@ -30,14 +30,16 @@ import org.springframework.transaction.PlatformTransactionManager;
 
     Tasklet: 단일 작업 단위
 
+    Flow: 여러 Step을 순차적 또는 병렬적으로 실행하는 제어 흐름 단위
+*/
+
+/*
     JobRepository: 배치 처리 중 메타데이터 테이블에 액세스하는 클래스
 
-    SimpleAsyncTaskExecutor: 각 작업마다 새로운 스레드를 생성하여 비동기 작업을 수행하는 Executor의 구현체
-
-    Flow: 여러 Step을 순차적 또는 병렬적으로 실행하는 제어 흐름 단위
-
     JobExecutionListener: Job의 시작과 종료 시점에 추가 작업을 수행할 수 있도록 콜백 메서드를 제공
- */
+
+    SimpleAsyncTaskExecutor: 각 작업마다 새로운 스레드를 생성하여 비동기 작업을 수행하는 Executor의 구현체
+*/
 @Configuration // Spring 설정 클래스 정의
 @EnableBatchProcessing // Spring Batch 활성화
 @EnableRetry // Spring Retry 활성화
@@ -94,7 +96,7 @@ public class BatchConfig {
 
     @Bean
     public TaskExecutor taskExecutor() {
-        return new SimpleAsyncTaskExecutor("batchExecutor");
+        return new SimpleAsyncTaskExecutor("taskExecutor");
     }
 
     @Bean
