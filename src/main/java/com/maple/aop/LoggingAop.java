@@ -22,10 +22,7 @@ public class LoggingAop {
     @Pointcut("execution(* com.maple.controller.*.*(..))")
     private void controllers() {}
 
-    @Pointcut("execution(* com.maple.batch.*.*(..))")
-    private void batches() {}
-
-    @Pointcut("controllers() || batches()")
+    @Pointcut("controllers()")
     private void logging() {}
 
     // @Around: 메서드 실행을 감싸서 제어할 수 있는 Advice 유형
@@ -37,7 +34,7 @@ public class LoggingAop {
         Object proceed = joinPoint.proceed();
 
         // 메서드 시그니처와 실행 시간을 로깅
-        log.info("{}() Duration: {} ms", joinPoint.getSignature().getName(), System.currentTimeMillis() - startTime);
+        log.info("{}() Execution Duration: {} ms", joinPoint.getSignature().getName(), System.currentTimeMillis() - startTime);
 
         // 메서드 실행 결과 반환
         return proceed;

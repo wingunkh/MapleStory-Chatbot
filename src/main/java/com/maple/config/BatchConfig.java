@@ -124,7 +124,7 @@ public class BatchConfig {
             @Override
             public void afterJob(@Nonnull JobExecution jobExecution) {
                 if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
-                    log.info("Job Duration: {}ms", System.currentTimeMillis() - startTime);
+                    log.info("Job Execution Duration: {}ms", System.currentTimeMillis() - startTime);
                 }
             }
         };
