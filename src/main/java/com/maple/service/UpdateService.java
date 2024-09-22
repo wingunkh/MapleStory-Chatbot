@@ -64,14 +64,14 @@ public class UpdateService extends InformationService {
             throw new RuntimeException();
         }
 
-        result.append("(").append(clientUpdates.get(0).getLocalDateTime().toLocalDate()).append(" 오전 03:00 기준)").append("\n\n");
+        result.append(clientUpdates.get(0).getLocalDateTime().toLocalDate()).append(" 오전 03:00 업데이트").append("\n\n");
 
         for (ClientUpdate clientUpdate : clientUpdates) {
             result.append(
                     String.join("\n",
-                            "▶ " + clientUpdate.getTitle(),
-                            "☞ 업데이트 링크: " + clientUpdate.getUrl(),
-                            "☞ 업데이트 날짜: " + clientUpdate.getDate()
+                            "\uD83D\uDCE2 " + clientUpdate.getTitle(),
+                            clientUpdate.getUrl(),
+                            clientUpdate.getDate()
                     )
             ).append("\n\n");
         }

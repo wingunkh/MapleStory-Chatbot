@@ -65,15 +65,14 @@ public class EventService extends InformationService {
             throw new RuntimeException();
         }
 
-        result.append("(").append(events.get(0).getLocalDateTime().toLocalDate()).append(" 오전 03:00 기준)").append("\n\n");
+        result.append(events.get(0).getLocalDateTime().toLocalDate()).append(" 오전 03:00 업데이트").append("\n\n");
 
         for (Event event : events) {
             result.append(
                     String.join("\n",
-                            "▶ " + event.getTitle(),
-                            "☞ 이벤트 링크: " + event.getUrl(),
-                            "☞ 이벤트 시작 날짜: " + event.getStartDate(),
-                            "☞ 이벤트 종료 날짜: " + event.getEndDate()
+                            "\uD83D\uDCE2 " + event.getTitle(),
+                            event.getUrl(),
+                            event.getStartDate() + " ~ " + event.getEndDate()
                     )
             ).append("\n\n");
         }

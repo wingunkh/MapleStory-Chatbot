@@ -75,15 +75,14 @@ public class ShopService extends InformationService {
             throw new RuntimeException();
         }
 
-        result.append("(").append(shops.get(0).getLocalDateTime().toLocalDate()).append(" 오전 03:00 기준)").append("\n\n");
+        result.append(shops.get(0).getLocalDateTime().toLocalDate()).append(" 오전 03:00 업데이트").append("\n\n");
 
         for (Shop shop : shops) {
             result.append(
                     String.join("\n",
-                            "▶ " + shop.getTitle(),
-                            "☞ 캐시샵 공지 링크: " + shop.getUrl(),
-                            "☞ 판매 시작 날짜: " + shop.getStartDate(),
-                            "☞ 판매 종료 날짜: " + shop.getEndDate()
+                            "\uD83D\uDCE2 " + shop.getTitle(),
+                            shop.getUrl(),
+                            shop.getStartDate() + " ~ " + shop.getEndDate()
                     )
             ).append("\n\n");
         }

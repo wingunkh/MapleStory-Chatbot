@@ -64,14 +64,14 @@ public class NoticeService extends InformationService {
             throw new RuntimeException();
         }
 
-        result.append("(").append(notices.get(0).getLocalDateTime().toLocalDate()).append(" 오전 03:00 기준)").append("\n\n");
+        result.append(notices.get(0).getLocalDateTime().toLocalDate()).append(" 오전 03:00 업데이트").append("\n\n");
 
         for (Notice notice : notices) {
             result.append(
                     String.join("\n",
-                            "▶ " + notice.getTitle(),
-                            "☞ 공지 링크: " + notice.getUrl(),
-                            "☞ 공지 날짜: " + notice.getDate()
+                            "\uD83D\uDCE2 " + notice.getTitle(),
+                            notice.getUrl(),
+                            notice.getDate()
                     )
             ).append("\n\n");
         }
