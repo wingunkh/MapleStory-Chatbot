@@ -22,4 +22,9 @@ public class Shop extends Information {
     private String endDate;
 
     private LocalDateTime localDateTime;
+
+    @Override
+    public String getFormattedDate() {
+        return startDate + " ~ " + endDate;
+    }
 }

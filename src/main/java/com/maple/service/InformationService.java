@@ -3,6 +3,7 @@ package com.maple.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.maple.domain.Information;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -64,5 +65,23 @@ public abstract class InformationService {
         HashMap<String, Object> simpleText = outputs.get(0);
 
         return (HashMap<String, Object>) simpleText.get("simpleText");
+    }
+
+    protected <T extends Information> StringBuilder createMessage(List<T> informationList) {
+        StringBuilder result = new StringBuilder();
+
+        result.append(informationList.get(0).getLocalDateTime().toLocalDate()).append(" 오전 03:00 업데이트").append("\n\n");
+
+        for (T information : informationList) {
+            result.append(
+                    String.join("\n",
+                            "\uD83D\uDCE2 " + information.getTitle(),
+                            information.getUrl(),
+                            information.getFormattedDate()
+                    )
+            ).append("\n\n");
+        }
+
+        return result;
     }
 }

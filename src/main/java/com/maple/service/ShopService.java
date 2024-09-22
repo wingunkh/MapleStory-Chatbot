@@ -67,27 +67,13 @@ public class ShopService extends InformationService {
 
         HashMap<String, Object> simpleText = extractSimpleText(jsonData);
 
-        StringBuilder result = new StringBuilder();
-
         List<Shop> shops = shopRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
 
         if (shops.isEmpty()) {
             throw new RuntimeException();
         }
 
-        result.append(shops.get(0).getLocalDateTime().toLocalDate()).append(" 오전 03:00 업데이트").append("\n\n");
-
-        for (Shop shop : shops) {
-            result.append(
-                    String.join("\n",
-                            "\uD83D\uDCE2 " + shop.getTitle(),
-                            shop.getUrl(),
-                            shop.getStartDate() + " ~ " + shop.getEndDate()
-                    )
-            ).append("\n\n");
-        }
-
-        simpleText.put("text", result.toString());
+        simpleText.put("text", createMessage(shops).toString());
 
         return jsonData;
     }

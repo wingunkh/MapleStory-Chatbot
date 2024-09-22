@@ -20,4 +20,9 @@ public class Notice extends Information {
     private String date;
 
     private LocalDateTime localDateTime;
+
+    @Override
+    public String getFormattedDate() {
+        return date;
+    }
 }

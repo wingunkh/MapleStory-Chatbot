@@ -57,27 +57,13 @@ public class EventService extends InformationService {
 
         HashMap<String, Object> simpleText = extractSimpleText(jsonData);
 
-        StringBuilder result = new StringBuilder();
-
         List<Event> events = eventRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
 
         if (events.isEmpty()) {
             throw new RuntimeException();
         }
 
-        result.append(events.get(0).getLocalDateTime().toLocalDate()).append(" 오전 03:00 업데이트").append("\n\n");
-
-        for (Event event : events) {
-            result.append(
-                    String.join("\n",
-                            "\uD83D\uDCE2 " + event.getTitle(),
-                            event.getUrl(),
-                            event.getStartDate() + " ~ " + event.getEndDate()
-                    )
-            ).append("\n\n");
-        }
-
-        simpleText.put("text", result.toString());
+        simpleText.put("text", createMessage(events).toString());
 
         return jsonData;
     }

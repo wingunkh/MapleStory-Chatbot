@@ -56,27 +56,13 @@ public class NoticeService extends InformationService {
 
         HashMap<String, Object> simpleText = extractSimpleText(jsonData);
 
-        StringBuilder result = new StringBuilder();
-
         List<Notice> notices = noticeRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
 
         if (notices.isEmpty()) {
             throw new RuntimeException();
         }
 
-        result.append(notices.get(0).getLocalDateTime().toLocalDate()).append(" 오전 03:00 업데이트").append("\n\n");
-
-        for (Notice notice : notices) {
-            result.append(
-                    String.join("\n",
-                            "\uD83D\uDCE2 " + notice.getTitle(),
-                            notice.getUrl(),
-                            notice.getDate()
-                    )
-            ).append("\n\n");
-        }
-
-        simpleText.put("text", result.toString());
+        simpleText.put("text", createMessage(notices).toString());
 
         return jsonData;
     }

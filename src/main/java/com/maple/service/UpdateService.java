@@ -56,27 +56,13 @@ public class UpdateService extends InformationService {
 
         HashMap<String, Object> simpleText = extractSimpleText(jsonData);
 
-        StringBuilder result = new StringBuilder();
-
         List<ClientUpdate> clientUpdates = updateRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
 
         if (clientUpdates.isEmpty()) {
             throw new RuntimeException();
         }
 
-        result.append(clientUpdates.get(0).getLocalDateTime().toLocalDate()).append(" 오전 03:00 업데이트").append("\n\n");
-
-        for (ClientUpdate clientUpdate : clientUpdates) {
-            result.append(
-                    String.join("\n",
-                            "\uD83D\uDCE2 " + clientUpdate.getTitle(),
-                            clientUpdate.getUrl(),
-                            clientUpdate.getDate()
-                    )
-            ).append("\n\n");
-        }
-
-        simpleText.put("text", result.toString());
+        simpleText.put("text", createMessage(clientUpdates).toString());
 
         return jsonData;
     }

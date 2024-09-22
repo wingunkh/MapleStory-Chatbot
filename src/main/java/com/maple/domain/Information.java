@@ -1,12 +1,21 @@
 package com.maple.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.Locale;
 
 public abstract class Information {
+    public abstract LocalDateTime getLocalDateTime();
+
+    public abstract String getTitle();
+
+    public abstract String getUrl();
+
+    public abstract String getFormattedDate();
+
     // OffsetDateTime → LocalDate + (요일) 변환
     public static String convertTime(String string) {
         string = string.substring(1, string.length() - 1);
