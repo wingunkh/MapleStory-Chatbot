@@ -70,16 +70,17 @@ public abstract class InformationService {
     protected <T extends Information> StringBuilder createMessage(List<T> informationList) {
         StringBuilder result = new StringBuilder();
 
-        result.append(informationList.get(0).getLocalDateTime().toLocalDate()).append(" 오전 03:00 업데이트").append("\n\n");
+        result.append(informationList.get(0).getLocalDateTime().toLocalDate()).append(" 오전 03:00 업데이트").append("\n");
+        result.append("(Data based on NEXON Open API)").append("\n\n");
 
         for (T information : informationList) {
-            result.append(
-                    String.join("\n",
-                            "\uD83D\uDCE2 " + information.getTitle(),
-                            information.getUrl(),
-                            information.getFormattedDate()
-                    )
-            ).append("\n\n");
+            String formattedInformation = String.join("\n",
+                    "\uD83D\uDCE2 " + information.getTitle(),
+                    information.getUrl(),
+                    information.getFormattedDate()
+            );
+
+            result.append(formattedInformation).append("\n\n");
         }
 
         return result;
