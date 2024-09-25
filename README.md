@@ -9,8 +9,8 @@
 <br>
 
 ## Description
-- 모바일 환경에서 메이플스토리 소식을 확인하려면 메이플스토리 공식 사이트에 접속한 후, 뉴스 섹션을 클릭하고, 원하는 섹션을 클릭하고, 원하는 소식을 클릭해야 하는 번거로운 과정이 필요합니다. <br>
-- 또한 공식 사이트가 모바일 버전 최적화가 되어 있지 않아 불편함이 더욱 크다고 느꼈습니다. <br>
+- 모바일 환경에서 메이플스토리 정보를 확인하려면 메이플스토리 공식 사이트에 접속한 후, 뉴스 섹션을 클릭하고, 원하는 섹션을 클릭하고, 원하는 정보를 클릭해야 하는 번거로운 과정이 필요합니다. <br>
+- 또한 공식 사이트가 모바일 최적화가 되어 있지 않아 불편함이 더욱 크다고 느꼈습니다. <br>
 - 이를 해결하기 위해 NEXON Open API를 활용하여 공지사항, 클라이언트 업데이트 등 메이플스토리의 다양한 최신 정보를 간편하게 확인할 수 있는 카카오톡 챗봇을 개발하여 서비스 중입니다.
 
 <br>
@@ -93,14 +93,14 @@
 <table>
   <tr>
     <td><img src="https://github.com/user-attachments/assets/56b25cf4-592a-42d8-80ec-e499e599ee95" width="300" height="650"><p>기본 메시지</p></td>
-    <td><img src="https://github.com/user-attachments/assets/58c9d89d-2d63-4438-8273-49524fdb2c40" height="650"><p>공지사항 확인 기능</p></td>
+    <td><img src="https://github.com/user-attachments/assets/9db18250-4be3-40de-939c-9f5a32bcb61e" width="300" height="650"><p>공지사항 확인 기능</p></td>
   </tr>
   <tr>
-    <td><img src="https://github.com/user-attachments/assets/33069bc7-9fcd-4ef6-8249-19bc618ea721" width="300" height="650"><p>클라이언트 업데이트 확인 기능</p></td>
-    <td><img src="https://github.com/user-attachments/assets/588d7d01-fb74-4e1c-af7d-30a60d751c71" width="300" height="650"><p>진행 중 이벤트 확인 기능</p></td>
+    <td><img src="https://github.com/user-attachments/assets/a5bd20a8-b31e-4101-8a1f-6ee6c023b1d3" width="300" height="650"><p>클라이언트 업데이트 확인 기능</p></td>
+    <td><img src="https://github.com/user-attachments/assets/1f8d525e-5e2d-4793-9680-8aa176eaabc3" width="300" height="650"><p>진행 중 이벤트 확인 기능</p></td>
   </tr>
   <tr>
-    <td><img src="https://github.com/user-attachments/assets/67676158-3c02-4206-a723-f7162dc3bcb7" width="300" height="650"><p>캐시샵 공지 확인 기능</p></td>
+    <td><img src="https://github.com/user-attachments/assets/43c5a04a-5701-4324-9b9d-6843e9834fd5" width="300" height="650"><p>캐시샵 공지 확인 기능</p></td>
   </tr>
 </table>
 
@@ -112,13 +112,13 @@
 2. 데이터를 Amazon RDS DB (MySQL)에 저장합니다.
 
 3. 카카오톡 챗봇의 요청에 해당하는 데이터를 JSON 형식으로 응답합니다.
-- Ehcache3를 활용하여 캐싱을 구현하였습니다.
-- 캐싱 적용 전 데이터 조회 소요 시간: 약 250 ~ 300ms
-- 캐싱 적용 후 데이터 조회 소요 시간: 약 1 ~ 2ms
+- **Ehcache3 Library를 활용하여 캐싱을 구현하였습니다.**
+- 캐싱 적용 전 데이터 조회 소요 시간: 약 250~300ms
+- 캐싱 적용 후 데이터 조회 소요 시간: 약 1~2ms
 
 4. 매일 오전 03:00에 NEXON Open API를 호출하여 데이터를 갱신합니다.
-- Spring Batch를 활용하여 병렬 처리를 구현하였습니다.
-- 병렬 처리 적용 전 데이터 갱신 소요 시간: 1000 ~ 1100ms
-- 병렬 처리 적용 후 데이터 갱신 소요 시간: 400 ~ 500ms
+- **Spring Batch Framework를 활용하여 병렬 처리를 구현하였습니다.**
+- 병렬 처리 적용 전 데이터 갱신 소요 시간: 1000~1100ms
+- 병렬 처리 적용 후 데이터 갱신 소요 시간: 400~500ms
 
 <br>
