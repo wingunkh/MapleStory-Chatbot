@@ -30,13 +30,13 @@ public class LoggingAop {
     public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
 
-        // 메서드 실행
         Object proceed = joinPoint.proceed();
+        // 메서드 실행
 
-        // 메서드 시그니처와 실행 시간을 로깅
         log.info("{}() Execution Duration: {} ms", joinPoint.getSignature().getName(), System.currentTimeMillis() - startTime);
+        // 메서드 시그니처와 실행 시간을 로깅
 
-        // 메서드 실행 결과 반환
         return proceed;
+        // 메서드 실행 결과 반환
     }
 }

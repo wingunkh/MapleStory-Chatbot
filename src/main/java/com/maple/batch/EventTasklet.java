@@ -17,8 +17,8 @@ public class EventTasklet implements Tasklet {
     private final EventService eventService;
 
     @Override
-    @Retryable(retryFor = Exception.class, maxAttempts = 3, backoff = @Backoff(delay = 3600000L))
     // 모든 예외에 대해, 재시도 최대 횟수 3회 (첫번째 시도 포함), 재시도 지연 시간 1시간
+    @Retryable(retryFor = Exception.class, maxAttempts = 3, backoff = @Backoff(delay = 3600000L))
     public RepeatStatus execute(@Nonnull StepContribution contribution, @Nonnull ChunkContext chunkContext) {
         eventService.fetchEvents();
 
