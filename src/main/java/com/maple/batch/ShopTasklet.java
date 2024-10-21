@@ -1,26 +1,26 @@
 package com.maple.batch;
 
 import com.maple.service.ShopService;
-import jakarta.annotation.Nonnull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.batch.core.StepContribution;
-import org.springframework.batch.core.scope.context.ChunkContext;
-import org.springframework.batch.core.step.tasklet.Tasklet;
-import org.springframework.batch.repeat.RepeatStatus;
-import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
 
+/**
+ * 캐시샵 공시사항 관련 작업을 수행하는 Tasklet 클래스
+ */
 @Component
-@RequiredArgsConstructor
-public class ShopTasklet implements Tasklet {
-    private final ShopService shopService;
+public class ShopTasklet extends BaseTasklet<ShopService> {
+    /**
+     * 생성자 메서드
+     * @param shopService ShopService 객체
+     */
+    public ShopTasklet(ShopService shopService) {
+        super(shopService);
+    }
 
+    /**
+     * 캐시샵 공지사항 정보 갱신 메서드
+     */
     @Override
-    @Retryable(retryFor = Exception.class, maxAttempts = 3, backoff = @Backoff(delay = 3600000L))
-    public RepeatStatus execute(@Nonnull StepContribution contribution, @Nonnull ChunkContext chunkContext) {
-        shopService.fetchShops();
-
-        return RepeatStatus.FINISHED;
+    protected void fetchData() {
+        informationService.fetchShops();
     }
 }

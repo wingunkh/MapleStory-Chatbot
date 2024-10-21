@@ -1,27 +1,26 @@
 package com.maple.batch;
 
 import com.maple.service.EventService;
-import jakarta.annotation.Nonnull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.batch.core.StepContribution;
-import org.springframework.batch.core.scope.context.ChunkContext;
-import org.springframework.batch.core.step.tasklet.Tasklet;
-import org.springframework.batch.repeat.RepeatStatus;
-import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
 
+/**
+ * 진행 중인 이벤트 관련 작업을 수행하는 Tasklet 클래스
+ */
 @Component
-@RequiredArgsConstructor
-public class EventTasklet implements Tasklet {
-    private final EventService eventService;
+public class EventTasklet extends BaseTasklet<EventService> {
+    /**
+     * 생성자 메서드
+     * @param eventService EventService 객체
+     */
+    public EventTasklet(EventService eventService) {
+        super(eventService);
+    }
 
+    /**
+     * 진행 중인 이벤트 정보 갱신 메서드
+     */
     @Override
-    // 모든 예외에 대해, 재시도 최대 횟수 3회 (첫번째 시도 포함), 재시도 지연 시간 1시간
-    @Retryable(retryFor = Exception.class, maxAttempts = 3, backoff = @Backoff(delay = 3600000L))
-    public RepeatStatus execute(@Nonnull StepContribution contribution, @Nonnull ChunkContext chunkContext) {
-        eventService.fetchEvents();
-
-        return RepeatStatus.FINISHED;
+    protected void fetchData() {
+        informationService.fetchEvents();
     }
 }
