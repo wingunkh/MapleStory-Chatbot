@@ -7,36 +7,35 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
-/*
-    Aspect: 공통 관심사 (Cross-Cutting-Concerns)를 모듈화한 것
-    Join Point: Aspect가 적용될 수 있는 특정 지점
-    Advice: Aspect의 기능을 정의한 것
-*/
+/**
+ * AOP를 이용하여 컨트롤러 메서드의 실행 시간을 로깅하는 클래스
+ * Aspect: 공통 관심사를 모듈화한 것
+ * Join Point: Aspect가 적용될 수 있는 특정 지점
+ * Advice: Aspect의 기능을 정의한 코드
+ */
 @Aspect
 @Component
 @Slf4j
 public class LoggingAop {
-    // @Pointcut: Advice가 적용될 Join Point를 결정
-    // execution: 메서드 실행 Join Point를 매칭
-    // * com.maple.controller.*.*(..)) : com.maple.controller 패키지 내의 모든 클래스 내의 모든 메서드 (반환 타입과 메서드 시그니처와 관계없이)
+    /**
+     * 컨트롤러 패키지 내 모든 메서드의 Join Point를 정의하는 메서드
+     */
     @Pointcut("execution(* com.maple.controller.*.*(..))")
     private void controllers() {}
 
-    @Pointcut("controllers()")
-    private void logging() {}
-
-    // @Around: 메서드 실행을 감싸서 제어할 수 있는 Advice 유형
-    @Around("logging()")
+    /**
+     * 메서드의 실행을 감싸서 실행 시간을 로깅하는 메서드
+     * @param joinPoint 실행 중인 Join Point 정보
+     * @return 메서드 실행 결과
+     * @throws Throwable 메서드 실행 중 발생할 수 있는 예외
+     */
+    @Around("controllers()")
     public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
-
-        Object proceed = joinPoint.proceed();
-        // 메서드 실행
+        Object result = joinPoint.proceed();
 
         log.info("{}() Execution Duration: {} ms", joinPoint.getSignature().getName(), System.currentTimeMillis() - startTime);
-        // 메서드 시그니처와 실행 시간을 로깅
 
-        return proceed;
-        // 메서드 실행 결과 반환
+        return result;
     }
 }
