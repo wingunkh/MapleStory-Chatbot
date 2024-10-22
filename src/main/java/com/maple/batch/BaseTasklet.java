@@ -18,7 +18,7 @@ public abstract class BaseTasklet<T extends InformationService> implements Taskl
     protected final T informationService;
 
     /**
-     * 하위 클래스에서 구현해야 하는 정보 갱신 메서드
+     * 정보 갱신 추상 메서드
      */
     protected abstract void fetchData();
 
