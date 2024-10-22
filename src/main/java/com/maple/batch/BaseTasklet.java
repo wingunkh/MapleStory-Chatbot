@@ -24,8 +24,8 @@ public abstract class BaseTasklet<T extends InformationService> implements Taskl
 
     /**
      * Tasklet 실행 메서드
-     * @param stepContribution 현재 Step의 실행 상태를 담고 있는 객체
-     * @param chunkContext 현재 Chunk의 메타데이터를 담고 있는 객체
+     * @param stepContribution 현재 Step의 실행 상태
+     * @param chunkContext 현재 Chunk의 메타데이터
      * @return Tasklet의 실행 결과 상태
      */
     @Override

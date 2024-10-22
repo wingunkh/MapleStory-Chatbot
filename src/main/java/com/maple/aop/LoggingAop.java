@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 
 /**
  * AOP를 이용하여 컨트롤러 메서드의 실행 시간을 로깅하는 클래스
- * Aspect: 공통 관심사를 모듈화한 것
- * Join Point: Aspect가 적용될 수 있는 특정 지점
- * Advice: Aspect의 기능을 정의한 코드
+ * - Aspect: 공통 관심사를 모듈화한 것
+ * - Join Point: Aspect가 적용될 수 있는 특정 지점
+ * - Advice: Aspect의 기능을 정의한 코드
  */
 @Aspect
 @Component
