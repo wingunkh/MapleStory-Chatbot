@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 
 /**
- * 예외 처리를 위한 서비스 클래스
+ * Controller 클래스의 전역 예외 처리를 위한 서비스 클래스
  */
 @Service
 @RequiredArgsConstructor
