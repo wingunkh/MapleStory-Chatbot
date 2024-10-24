@@ -1,38 +1,32 @@
 package com.maple.domain;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
-import java.util.Locale;
 
+/**
+ * 제공 정보 추상 클래스
+ */
 public abstract class Information {
-    public abstract LocalDateTime getLocalDateTime();
-
+    /**
+     * 정보 제목 반환 추상 메서드
+     * @return 정보 제목
+     */
     public abstract String getTitle();
 
+    /**
+     * 정보 url 반환 추상 메서드
+     * @return 정보 url
+     */
     public abstract String getUrl();
 
+    /**
+     * 특정 포맷으로 변환된 정보 관련 날짜를 반환하는 추상 메서드
+     * @return 포맷된 정보 관련 날짜
+     */
     public abstract String getFormattedDate();
 
-    // OffsetDateTime → LocalDate + (요일) 변환
-    public static String convertTime(String string) {
-        string = string.substring(1, string.length() - 1);
-        // String.valueOf() 메서드로 인한 작은 따옴표 제거
-
-        OffsetDateTime offsetDateTime = OffsetDateTime.parse(string, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-        // 문자열 → OffsetDateTime 파싱
-
-        LocalDate localDate = offsetDateTime.toLocalDate();
-        // OffsetDateTime → LocalDate 변환
-        // ex) 2024-07-18T17:30+09:00 → 2024-07-18
-
-        String shortDayOfWeek = localDate.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.KOREAN);
-        // 요일 추출
-        // ex) 목
-
-        return localDate + " (" + shortDayOfWeek + ")";
-        // ex) 2024-07-18 (목)
-    }
+    /**
+     * 정보 갱신 시각 반환 추상 메서드
+     * @return 정보 갱신 시각
+     */
+    public abstract LocalDateTime getUpdatedDate();
 }

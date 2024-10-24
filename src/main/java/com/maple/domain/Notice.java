@@ -2,12 +2,19 @@ package com.maple.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
+/**
+ * 공지사항 정보 엔티티 클래스
+ */
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class Notice extends Information {
     @Id
@@ -17,12 +24,7 @@ public class Notice extends Information {
 
     private String url;
 
-    private String date;
+    private String formattedDate;
 
-    private LocalDateTime localDateTime;
-
-    @Override
-    public String getFormattedDate() {
-        return date;
-    }
+    private LocalDateTime updatedDate;
 }
