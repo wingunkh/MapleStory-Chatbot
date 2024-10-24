@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * 캐시샵 공지사항 정보 제공을 위한 서비스 클래스
+ */
 @Service
 @RequiredArgsConstructor
 public class ShopService extends InformationService {
@@ -26,6 +29,9 @@ public class ShopService extends InformationService {
     private final RestTemplate restTemplate;
     private final ShopRepository shopRepository;
 
+    /**
+     * 캐시샵 공지사항 정보 갱신 메서드
+     */
     @Transactional
     @CacheEvict(value = "myCache", allEntries = true)
     public void fetchShops() {
@@ -37,23 +43,15 @@ public class ShopService extends InformationService {
 
         for (int i = 0; i < Math.min(shopNodes.size(), 10); i++) {
             JsonNode shopNode = shopNodes.get(i);
-            Shop shop = new Shop();
-            shop.setId(shopNode.get("notice_id").asLong());
-            shop.setTitle(shopNode.get("title").asText());
-            shop.setUrl(shopNode.get("url").asText());
 
-            String start = String.valueOf(shopNode.get("date_sale_start"));
-            String end = String.valueOf(shopNode.get("date_sale_end"));
+            Shop shop = new Shop(
+                    shopNode.get("notice_id").asLong(),
+                    shopNode.get("title").asText(),
+                    shopNode.get("url").asText(),
+                    formatSaleDate(shopNode.get("date_sale_start").asText(), shopNode.get("date_sale_end").asText()),
+                    LocalDateTime.now()
+            );
 
-            if (isNull(start, end)) {
-                shop.setStartDate("상시");
-                shop.setEndDate("상시");
-            } else {
-                shop.setStartDate(Shop.convertTime(start));
-                shop.setEndDate(Shop.convertTime(end));
-            }
-
-            shop.setLocalDateTime(LocalDateTime.now());
             shops.add(shop);
         }
 
@@ -61,6 +59,10 @@ public class ShopService extends InformationService {
         shopRepository.saveAll(shops);
     }
 
+    /**
+     * 캐시샵 공지사항 정보 조회 메서드
+     * @return JSON 데이터
+     */
     @Cacheable(value = "myCache", key = "'shop'")
     public HashMap<String, Object> findAllShop() {
         HashMap<String, Object> jsonData = createJsonData();
@@ -73,16 +75,23 @@ public class ShopService extends InformationService {
             throw new RuntimeException();
         }
 
-        simpleText.put("text", createMessage(shops).toString());
+        simpleText.put("text", createMessage(shops));
 
         return jsonData;
     }
 
-    private Boolean isNull(String start, String end) {
+    /**
+     * 판매 날짜를 포맷하는 메서드
+     *
+     * @param start 판매 시작 날짜
+     * @param end 판매 종료 날짜
+     * @return 포맷된 판매 날짜
+     */
+    private String formatSaleDate(String start, String end) {
         if (start.equals("null") && end.equals("null")) {
-            return Boolean.TRUE;
+            return "상시 ~ 상시";
         }
 
-        return Boolean.FALSE;
+        return convertDate(start) + "~" + convertDate(end);
     }
 }

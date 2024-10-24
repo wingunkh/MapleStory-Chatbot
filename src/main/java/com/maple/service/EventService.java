@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * 진행 중인 이벤트 정보 제공을 위한 서비스 클래스
+ */
 @Service
 @RequiredArgsConstructor
 public class EventService extends InformationService {
@@ -26,6 +29,9 @@ public class EventService extends InformationService {
     private final RestTemplate restTemplate;
     private final EventRepository eventRepository;
 
+    /**
+     * 진행 중인 이벤트 정보 갱신 메서드
+     */
     @Transactional
     @CacheEvict(value = "myCache", allEntries = true)
     public void fetchEvents() {
@@ -37,13 +43,15 @@ public class EventService extends InformationService {
 
         for (int i = 0; i < Math.min(eventNodes.size(), 10); i++) {
             JsonNode eventNode = eventNodes.get(i);
-            Event event = new Event();
-            event.setId(eventNode.get("notice_id").asLong());
-            event.setTitle(eventNode.get("title").asText());
-            event.setUrl(eventNode.get("url").asText());
-            event.setStartDate(Event.convertTime(String.valueOf(eventNode.get("date_event_start"))));
-            event.setEndDate(Event.convertTime(String.valueOf(eventNode.get("date_event_end"))));
-            event.setLocalDateTime(LocalDateTime.now());
+
+            Event event = new Event(
+                    eventNode.get("notice_id").asLong(),
+                    eventNode.get("title").asText(),
+                    eventNode.get("url").asText(),
+                    formatEventDate(eventNode.get("date_event_start").asText(), eventNode.get("date_event_end").asText()),
+                    LocalDateTime.now()
+            );
+
             events.add(event);
         }
 
@@ -51,6 +59,10 @@ public class EventService extends InformationService {
         eventRepository.saveAll(events);
     }
 
+    /**
+     * 진행 중인 이벤트 정보 조회 메서드
+     * @return JSON 데이터
+     */
     @Cacheable(value = "myCache", key = "'event'")
     public HashMap<String, Object> findAllEvent() {
         HashMap<String, Object> jsonData = createJsonData();
@@ -63,8 +75,18 @@ public class EventService extends InformationService {
             throw new RuntimeException();
         }
 
-        simpleText.put("text", createMessage(events).toString());
+        simpleText.put("text", createMessage(events));
 
         return jsonData;
+    }
+
+    /**
+     * 이벤트 진행 날짜를 포맷하는 메서드
+     * @param start 이벤트 시작 날짜
+     * @param end 이벤트 종료 날짜
+     * @return 포맷된 이벤트 진행 날짜
+     */
+    private String formatEventDate(String start, String end) {
+        return convertDate(start) + "~" + convertDate(end);
     }
 }

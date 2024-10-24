@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * 공지사항 정보 제공을 위한 서비스 클래스
+ */
 @Service
 @RequiredArgsConstructor
 public class NoticeService extends InformationService {
@@ -26,6 +29,9 @@ public class NoticeService extends InformationService {
     private final RestTemplate restTemplate;
     private final NoticeRepository noticeRepository;
 
+    /**
+     * 공지사항 정보 갱신 메서드
+     */
     @Transactional
     @CacheEvict(value = "myCache", allEntries = true)
     public void fetchNotices() {
@@ -37,12 +43,15 @@ public class NoticeService extends InformationService {
 
         for (int i = 0; i < Math.min(noticeNodes.size(), 10); i++) {
             JsonNode noticeNode = noticeNodes.get(i);
-            Notice notice = new Notice();
-            notice.setId(noticeNode.get("notice_id").asLong());
-            notice.setTitle(noticeNode.get("title").asText());
-            notice.setUrl(noticeNode.get("url").asText());
-            notice.setDate(Notice.convertTime(String.valueOf(noticeNode.get("date"))));
-            notice.setLocalDateTime(LocalDateTime.now());
+
+            Notice notice = new Notice(
+                    noticeNode.get("notice_id").asLong(),
+                    noticeNode.get("title").asText(),
+                    noticeNode.get("url").asText(),
+                    convertDate(noticeNode.get("date").asText()),
+                    LocalDateTime.now()
+            );
+
             notices.add(notice);
         }
 
@@ -50,6 +59,10 @@ public class NoticeService extends InformationService {
         noticeRepository.saveAll(notices);
     }
 
+    /**
+     * 공지사항 정보 조회 메서드
+     * @return JSON 데이터
+     */
     @Cacheable(value = "myCache", key = "'notice'")
     public HashMap<String, Object> findAllNotice() {
         HashMap<String, Object> jsonData = createJsonData();
@@ -62,7 +75,7 @@ public class NoticeService extends InformationService {
             throw new RuntimeException();
         }
 
-        simpleText.put("text", createMessage(notices).toString());
+        simpleText.put("text", createMessage(notices));
 
         return jsonData;
     }
