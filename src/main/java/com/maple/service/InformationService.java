@@ -128,7 +128,7 @@ public abstract class InformationService {
      * @param string OffsetDateTime 문자열
      * @return 변환된 날짜 + 요일 문자열 (예: "2024-07-18 (목)")
      */
-    public static String convertDate(String string) {
+    protected static String convertDate(String string) {
         OffsetDateTime offsetDateTime = OffsetDateTime.parse(string, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
         // 문자열 → OffsetDateTime 파싱
         // ex) "2024-07-18T17:30+09:00" → 2024-07-18T17:30+09:00
